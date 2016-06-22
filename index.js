@@ -1,16 +1,16 @@
 /**
  * Expose it.
  */
-module.exports = Range();
+module.exports.TinyRange = TinyRange;
 
 /**
  * Range parser.
  * @returns {Range}
  * @constructor
  */
-function Range(){
-  if (!(this instanceof Range)) {
-    return new Range();
+function TinyRange(){
+  if (!(this instanceof TinyRange)) {
+    return new TinyRange();
   }
 
   // maximize int.
@@ -25,7 +25,8 @@ function Range(){
       number : /^\-?\d+$/,
       min2num: /^~\-?\d+$/,
       num2max: /^\-?\d+~$/,
-      num2num: /^\-?\d+~\-?\d+$/
+      num2num: /^\-?\d+~\-?\d+$/,
+      numdashnum: /^\-?\d+-\-?\d+$/
     }
   };
 
@@ -37,7 +38,7 @@ function Range(){
  * @param {String} str
  * @returns {*}
  */
-Range.prototype.parse = function(str){
+TinyRange.prototype.parse = function(str){
   var opts = this.options;
 
   // make sure is a range string.
@@ -54,9 +55,9 @@ Range.prototype.parse = function(str){
 
     var ret = null;
     // Parse string by a matched parser.
-    ['number', 'min2num', 'num2max', 'num2num'].some(function(n, i){
+    ['number', 'min2num', 'num2max', 'num2num', 'numdashnum'].some(function(n, i){
       var matched = opts.res[n].test(s);
-      matched && (ret = Range.parser[n](s, opts));
+      matched && (ret = TinyRange.parser[n](s, opts));
       return matched;
     });
 
@@ -80,7 +81,7 @@ Range.prototype.parse = function(str){
  * @returns {Array}
  * @private
  */
-Range.prototype._merge = function(rg){
+TinyRange.prototype._merge = function(rg){
   var n = 0, len = rg.length;
   for (var i = 1; i < len; ++i) {
     // continue loop if the next minimum is greater than the previous maximum.
@@ -109,7 +110,7 @@ Range.prototype._merge = function(rg){
  * Parsers.
  * @type {{number: Function, min2num: Function, num2max: Function, num2num: Function}}
  */
-Range.parser = {
+TinyRange.parser = {
   /**
    * A number, e.g.: 12,3,4
    * @param {String} s
@@ -147,6 +148,18 @@ Range.parser = {
     var r = s.split('~').map(function(d){
       return parseFloat(d);
     });
+    // number at position 1 must greater than position 0.
+    if (r[0] > r[1]) {
+      return r.reverse();
+    }
+    return r;
+  },
+  numdashnum: function (s, opts) {
+    // Look for the first dash that isn't the first character of the string.
+    var d = s.indexOf("-", 1);
+
+    var r = [ parseFloat( s.substr(0,d) ), parseFloat( s.substr(d+1) ) ];
+
     // number at position 1 must greater than position 0.
     if (r[0] > r[1]) {
       return r.reverse();

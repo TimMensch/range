@@ -1,11 +1,12 @@
-var range = require('../'),
+var Range = require('../').TinyRange;
+var range = new Range(),
     chai = require('chai'),
     expect = chai.expect,
     should = chai.should();
 
 describe('Parse range from a string',function(){
   var str1 = '-1,-2,-3,-4,0,1,2',
-      str2 = '-5~-3, -4, 2, 7',
+      str2 = '-5--3, -4, 2, 7',
       str3 = '-3~-10, 10~3',
       str4 = 'abc~232,a,b,c',
       str5 = '~100, 150~',

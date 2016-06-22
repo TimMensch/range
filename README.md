@@ -8,14 +8,20 @@ Range parser that parse range from string, e.g. "0, 1, 7~8, 9-10, 100~105" -> [[
 - Automatic merge overlapped range.
 - Wrap continuous numbers into range.
 
+# Forked version differences
+
+- Returns TinyRange as a named object (for easier inclusion in ES6 modules with Rollup)
+- Actually parses the dash as a range separator (which is implied in the docs, but was not actually supported)
+
 # Installation
 ```bash
-$ npm install tiny-range
+$ npm install TimMensch/tiny-range
 ```
 
 # Usage
 ```javascript
-var range = require('tiny-range');
+var TinyRange = require('tiny-range').TinyRange;
+var range = new TinyRange();
 
 var result = range.parse('0, 1, 7~8, 9-10, 100~105');
 
@@ -46,8 +52,12 @@ var result = range.parse('0, 1, 7~8, 9-10, 100~105');
   ```
   -10~10
   ```
+  or
+  ```
+  -10-10
+  ```
 
-## Advantage Usage
+## Advanced Usage
 ```javascript
 var result = range.parse('~-5, -3, 0, 1, 2, 3, 7~8, 9-20, 100~');
 
