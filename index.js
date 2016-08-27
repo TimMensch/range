@@ -1,3 +1,9 @@
+
+// Modified by Tim Mensch, 2016:
+// * Change name to TinyRange
+// * Use named export
+// * Allow use of dash as a range specifier
+
 /**
  * Expose it.
  */

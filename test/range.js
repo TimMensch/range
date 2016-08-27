@@ -1,3 +1,8 @@
+// Modified by Tim Mensch, 2016:
+// * Added tests that include dash as a range
+// * Changed import to reference TinyRange
+
+
 var Range = require('../').TinyRange;
 var range = new Range(),
     chai = require('chai'),
