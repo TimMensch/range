@@ -20,12 +20,10 @@
   "bugs": {
     "url": "https://github.com/Tjatse/range/issues"
   },
-  "engines": [
-    "node >= 0.10.0"
-  ],
-  "dependencies": {
-
+  "engines": {
+    "node": ">=0.10.3"
   },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "^1.21.4",
     "chai": "^1.9.1"
