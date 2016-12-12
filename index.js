@@ -30,7 +30,7 @@ function TinyRange(){
       blank  : /\s+/g,
       number : /^\-?\d+$/,
       min2num: /^~\-?\d+$/,
-      num2max: /^\-?\d+~$/,
+      num2max: /^\-?\d+[-~]$/,
       num2num: /^\-?\d+~\-?\d+$/,
       numdashnum: /^\-?\d+-\-?\d+$/
     }

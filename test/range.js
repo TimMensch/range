@@ -15,7 +15,8 @@ describe('Parse range from a string',function(){
       str3 = '-3~-10, 10~3',
       str4 = 'abc~232,a,b,c',
       str5 = '~100, 150~',
-      str6 = '--10~20,30, ,,,-,~, 5-, -9',
+      str5b = '~100, 150-',
+      str6 = '--10~20,30, ,,,-,~, , -9',
       max = Math.pow(2, 32) - 1;
 
   function validArray(rng, min, max){
@@ -62,11 +63,21 @@ describe('Parse range from a string',function(){
       validArray(rng[1], 150, max);
     })
   });
-
+  describe(str5b, function(){
+    it('maximum and maximum should be filled up with dash at the end', function(){
+      var rng = range.parse(str5);
+      should.exist(rng);
+      expect(rng.length).to.eql(2);
+      validArray(rng[0], -max, 100);
+      validArray(rng[1], 150, max);
+    })
+  });
   describe(str6, function(){
     it('useless chars should be removed', function(){
       var rng = range.parse(str6);
       should.exist(rng);
+      console.log("rng",rng);
+
       expect(rng.length).to.eql(2);
       expect(rng[0]).to.eql(-9);
       expect(rng[1]).to.eql(30);
